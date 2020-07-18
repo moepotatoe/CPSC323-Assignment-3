@@ -1,0 +1,5 @@
+int m = 2;
+int x = 3;
+int b = 4;
+
+int y = m*x + b;

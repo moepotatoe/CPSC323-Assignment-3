@@ -1,0 +1,42 @@
+Scanning file with words and index numbers...
+int 0
+i; 1
+int 2
+max; 3
+int 4
+sum; 5
+sum 6
+= 7
+0; 8
+i 9
+= 10
+1; 11
+get 12
+(max); 13
+while 14
+(i 15
+< 16
+max) 17
+{ 18
+sum 19
+= 20
+sum 21
++ 22
+i; 23
+i 24
+= 25
+i 26
++ 27
+1; 28
+} 29
+sum 30
+= 31
+sum 32
++ 33
+max; 34
+put 35
+(sum); 36
+
+
+Printing entire vector textList
+int i; int max; int sum; sum = 0; i = 1; get (max); while (i < max) { sum = sum + i; i = i + 1; } sum = sum + max; put (sum);
