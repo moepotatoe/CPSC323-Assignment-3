@@ -6,6 +6,12 @@
 
 void Rat20su (std::string token);
 void OptDeclarationList(std::string token);
+void DeclarationList(std::string token);
+void DeclarationListPrime(std::string lexemeInput);
+void Declaration(std::string lexemeInput);
+
+void Empty(std::string lexemeInput);
+
 
 /*Rat20SU rewrite
 
