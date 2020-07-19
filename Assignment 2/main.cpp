@@ -48,7 +48,7 @@ void scanFile(std::ifstream &file) {
     }
     // for (int x = 0; x < lexVec.size(); x++)
     // {
-    //     std::cout << "Parse list " << x;
+    //     std::cout << "Lexers list " << x;
     //     std::cout << "\n" << lexVec[x] << "\n ";
     // }
     // for (int x = 0; x < parseList.size(); x++)
@@ -56,7 +56,7 @@ void scanFile(std::ifstream &file) {
     //     std::cout << "Parse list " << x;
     //     std::cout << "\n" << parseList[x] << "\n ";
     // }
-    std::cout << "\nWould you like to toggle printing? 1 - Yes 2 - No : ";
+    std::cout << "\n\n\nWould you like to toggle printing? 1 - Yes 2 - No : ";
     int choice;
     std::cin >> choice;
     do {

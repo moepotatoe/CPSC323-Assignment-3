@@ -11,9 +11,14 @@ std::vector<std::string> lexer(std::string input) {
         if (bool separatorCheck = isSeparator(input[x])) {
             token = "Separator";
             lexeme = input[x];
+            if (input[x] == '$' && input[x+1] == '$')
+            {   
+                lexeme = "$$";
+                x++;
+            }
             tokenVec.push_back(token);
             lexVec.push_back(lexeme);
-            result = "Token: \t" + token + "\tLexeme:\t" + lexeme;
+            result = "Token: " + token + "\tLexeme: " + lexeme;
             records.push_back(result);
         }
         /* Check if it is an operator. */
@@ -22,7 +27,7 @@ std::vector<std::string> lexer(std::string input) {
             lexeme = input[x];
             tokenVec.push_back(token);
             lexVec.push_back(lexeme);
-            result = "Token: \t" + token + "\tLexeme:\t" + lexeme;
+            result = "Token: " + token + "  \tLexeme: " + lexeme;
             records.push_back(result);
         }        
         /* Check if it is an integer. */
@@ -37,7 +42,7 @@ std::vector<std::string> lexer(std::string input) {
             lexeme = tempInt;
             tokenVec.push_back(token);
             lexVec.push_back(lexeme);
-            result = "Token: \t" + token + "\tLexeme:\t" + lexeme;
+            result = "Token: " + token + "\tLexeme: " + lexeme;
             records.push_back(result);
             x = y-1;
         }
@@ -55,7 +60,7 @@ std::vector<std::string> lexer(std::string input) {
                 lexeme = tempID;
                 tokenVec.push_back(token);
                 lexVec.push_back(lexeme);
-                result = "Token: \t" + token + "\tLexeme:\t" + lexeme;
+                result = "Token: " + token + "  \tLexeme: " + lexeme;
                 records.push_back(result);
                 x = y-1;
             }
@@ -65,7 +70,7 @@ std::vector<std::string> lexer(std::string input) {
                 lexeme = tempID;
                 tokenVec.push_back(token);
                 lexVec.push_back(lexeme);
-                result = "Token: \t" + token + "\tLexeme:\t" + lexeme;
+                result = "Token: " + token + "\tLexeme: " + lexeme;
                 records.push_back(result);
                 x = y-1;
             }
@@ -124,7 +129,7 @@ int identifierDFSM(const std::string str) {
 }
 
 bool isSeparator(char ch) {
-    if(ch == '(' || ch == ')' || ch == '{' || ch == '}' || ch == ';' || ch == '[' || ch == ']') { return true; }
+    if(ch == '(' || ch == ')' || ch == '{' || ch == '}' || ch == ';' || ch == '[' || ch == ']' || ch == '$') { return true; }
     else { return false; }
 }
 
