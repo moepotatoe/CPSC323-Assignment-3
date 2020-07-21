@@ -185,7 +185,7 @@ void StatementListPrime(std::string lexemeInput) {
     }
 }
 
-//<Statement> -> <Compound>  |  <Assign>  |   <If>  |  <Get>   |   <Put>   |  <While> 
+// R7. <Statement> -> <Compound>  |  <Assign>  |   <If>  |  <Get>   |   <Put>   |  <While> 
 void Statement(std::string lexemeInput) {
 
     std::cout << "\nLexeme passed in: " << lexemeInput << "\n";
@@ -221,4 +221,93 @@ void Statement(std::string lexemeInput) {
         if (printSw) { std::cout << "<Statement> -> <While>\n";}
         While(lexemeInput);
     }
+}
+
+// R8. <Compound> ::=   {  <Statement List>  } 
+void Compound(std::string lexemeInput) {
+    if (printSw) { std::cout << "<Compound> ::=   {  <Statement List>  }\n"; }
+    StatementList(lexemeInput);
+    if (lexemeInput != "}") { std::cout << "Error: '}' expected\n"; }
+    userLex = lexerCall();
+}
+
+// R9. <Assign> ::=     <Identifier> = <Expression> ;
+void Assign(std::string lexemeInput) {
+    if (printSw) { std::cout << "<Assign> ::=     <Identifier> = <Expression> ;\n"; }
+    Identifier(lexemeInput);
+    userLex = lexerCall();
+    if (lexemeInput != "=") { "Error: '=' expected\n"; }
+    userLex = lexerCall();
+    Expression(lexemeInput);
+    if (lexemeInput != ";") { "Error: ';' expected\n"; }
+    userLex = lexerCall();
+}
+
+// R10. <If> ::=     if  ( <Condition>  ) <Statement>   fi   |   if  ( <Condition>  ) <Statement>   otherwise  <Statement>  fi 
+void If(std::string lexemeInput) {
+    if (printSw) { std::cout << "<If> ::=     if  ( <Condition>  ) <Statement>   fi   |   if  ( <Condition>  ) <Statement>   otherwise  <Statement>  fi\n"; }
+    if (lexemeInput != "(") { std::cout << "Error: '(' expected\n"; }
+    userLex = lexerCall();
+    Condition(lexemeInput);
+    if (lexemeInput != ")") { std::cout << "Error: ')' expected\n"; }
+    userLex = lexerCall();
+    Statement(lexemeInput);
+    if (lexemeInput == "otherwise") { Statement(lexemeInput); }
+    // double check
+    if (lexemeInput != "if") { std::cout << "Error: 'if' keyword expected\n"; }
+    userLex = lexerCall();
+}
+
+// R11. <Put> ::=     put ( <identifier> );
+void Put(std::string lexemeInput) {
+    if (printSw) { std::cout << "<Put> ::=     put ( <identifier> );\n"; }
+    if (lexemeInput != "(") { std::cout << "Error: '(' expected\n"; }
+    userLex = lexerCall();
+    Identifier(lexemeInput);
+    if (lexemeInput != ")") { std::cout << "Error: ')' expected\n"; }
+    userLex = lexerCall();
+    if (lexemeInput != ";") { std::cout << "Error: ';' expected\n"; }
+    userLex = lexerCall();
+}
+
+// R12. <Get> ::=    get ( <Identifier> );
+void Get(std::string lexemeInput) {
+    if (printSw) { std::cout << "<Get> ::=     get ( <Identifier> );\n"; }
+    if (lexemeInput != "(") { std::cout << "Error: '(' expected\n"; }
+    userLex = lexerCall();
+    Identifier(lexemeInput);
+    if (lexemeInput != ")") { std::cout << "Error: ')' expected\n"; }
+    userLex = lexerCall();
+    if (lexemeInput != ";") { std::cout << "Error: ';' expected\n"; }
+    userLex = lexerCall();
+}
+
+// R13. <While> ::=  while ( <Condition>  )  <Statement>  
+void While(std::string lexemeInput) {
+    if (printSw) { std::cout << "<While> ::=  while ( <Condition>  )  <Statement>\n"; }
+    if (lexemeInput != "(") { std::cout << "Error: '(' expected\n"; }
+    userLex = lexerCall();
+    Condition(lexemeInput);
+    if (lexemeInput != ")") { std::cout << "Error: ')' expected\n"; }
+    userLex = lexerCall();
+    Statement(lexemeInput);
+    // Error check here? 
+    userLex = lexerCall();
+}
+
+// R14. <Condition> ::=     <Expression>  <Relop>   <Expression>
+void Condition(std::string lexemeInput) {
+    if (printSw) { std::cout << "<Condition> ::=     <Expression>  <Relop>   <Expression>\n"; }
+    Expression(lexemeInput);
+    Relop(lexemeInput);
+    userLex = lexerCall();
+    Expression(lexemeInput);
+}
+
+// R15. <Relop> ::=        ==     |    >     |   <          
+void Relop(std::string lexemeInput) {
+    if (lexemeInput != "==" && lexemeInput != ">" && lexemeInput != "<") {
+        std::cout << "Error: relational operator expected\n";
+    }
+    if (printSw) { std::cout << "<Relop> ::=        " << lexemeInput << std::endl; }
 }

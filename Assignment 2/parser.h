@@ -11,10 +11,18 @@ void DeclarationListPrime(std::string lexemeInput);
 void Declaration(std::string lexemeInput);
 void Qualifier(std::string lexemeInput);
 void Identifier(std::string lexemeInput);
-
-
+void StatementList(std::string lexemeInput);
+void StatementListPrime(std::string lexemeInput);
+void Statement(std::string lexemeInput);
+void Compound(std::string lexemeInput);
 void Empty(std::string lexemeInput);
-
+void Assign(std::string lexemeInput);
+void If(std::string lexemeInput);
+void Put(std::string lexemeInput);
+void Get(std::string lexemeInput);
+void While(std::string lexemeInput);
+void Condition(std::string lexemeInput);
+void Relop(std::string lexemeInput);
 
 /*Rat20SU rewrite
 
