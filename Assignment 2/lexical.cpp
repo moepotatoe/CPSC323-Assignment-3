@@ -4,16 +4,19 @@ std::vector<std::string> lexer(std::string input) {
     std::string token, lexeme = "";
     std::string result, temp;
     std::vector<std::string> records;
+   
+
     /* Go through each character */
     for (int x = 0; x < input.size(); x++) {
+
         /* Store token and lexeme into a result string. Push result string onto a vector of strings called records. Lexer will return records. */
         /* Check if it is a separator. */
         if (bool separatorCheck = isSeparator(input[x])) {
             token = "Separator";
             lexeme = input[x];
-            if (input[x] == '$' && input[x+1] == '$')
+            if (input[x] == '$' && input[x+1] == '$') //Since this reads in one character at a time, check if the next character is also a $.
             {   
-                lexeme = "$$";
+                lexeme = "$$"; //If it is true, add another $ to the lexeme and increment x to skip over it.
                 x++;
             }
             tokenVec.push_back(token);
@@ -75,7 +78,6 @@ std::vector<std::string> lexer(std::string input) {
                 x = y-1;
             }
         }
-
     }
     return records;
 }
@@ -129,7 +131,7 @@ int identifierDFSM(const std::string str) {
 }
 
 bool isSeparator(char ch) {
-    if(ch == '(' || ch == ')' || ch == '{' || ch == '}' || ch == ';' || ch == '[' || ch == ']' || ch == '$') { return true; }
+    if(ch == '(' || ch == ')' || ch == '{' || ch == '}' || ch == ';' || ch == '[' || ch == ']' || ch == '$') { return true; } //$ will be read twice.
     else { return false; }
 }
 

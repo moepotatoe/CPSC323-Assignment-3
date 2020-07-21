@@ -9,6 +9,9 @@ void OptDeclarationList(std::string token);
 void DeclarationList(std::string token);
 void DeclarationListPrime(std::string lexemeInput);
 void Declaration(std::string lexemeInput);
+void Qualifier(std::string lexemeInput);
+//void Identifier(std::string lexemeInput);
+
 
 void Empty(std::string lexemeInput);
 
@@ -17,10 +20,10 @@ void Empty(std::string lexemeInput);
 
 R1. <Rat20SU>  ::=   $$  <Opt Declaration List>    <Statement List> $$ 
 R2. <Opt Declaration List> ::= <Declaration List>   |    <Empty>
-R3. <Declaration List>  := <Declaration> ;     |      <Declaration> ; <Declaration List> ===== LEFT RECURSION ====
+R3. <Declaration List>  := <Declaration> ;     |      <Declaration> ; <Declaration List> ===== BACKTRACKING ====
 R4. <Declaration> ::=   <Qualifier >  <identifier>   
 R5: <Qualifier> ::=  integer |  boolean                
-R6. <Statement List> ::=   <Statement>   | <Statement> <Statement List> ===== LEFT RECURSION ====
+R6. <Statement List> ::=   <Statement>   | <Statement> <Statement List> ===== BACKTRACKING ====
 R7. <Statement> ::=   <Compound>  |  <Assign>  |   <If>  |  <Get>   |   <Put>   |  <While> 
 R8. <Compound> ::=   {  <Statement List>  } 
 R9. <Assign> ::=     <Identifier> = <Expression> ;
@@ -40,3 +43,8 @@ R20. <Empty>   ::= epsilon
 
 //R1. <Rat20SU>  ::=   $$  <Opt Declaration List>    <Statement List> $$ 
 
+
+
+
+//R3. <Declaration List> -> <Declaration> ; <Declaration List Prime>
+//<Declaration List Prime> -> <Declaration List> | Epsilon

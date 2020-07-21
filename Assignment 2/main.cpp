@@ -2,6 +2,7 @@
 #include "lexical.cpp"
 #include "parser.h"
 #include "parser.cpp"
+#include <string>
 
 void getFile(std::ifstream &file);
 void scanFile(std::ifstream &file);
@@ -32,12 +33,29 @@ void scanFile(std::ifstream &file) {
     int x = 0;
     std::string temp;
     std::vector<std::string> recordList;
+
+    
    
     std::string lexerOutput = "";
     std::cout << "\nScanning file with words and index numbers...\n";
     userOutput << "Token \t Lexeme\n";
-    while (file >> temp) {
-        x++;
+
+    while (file >> temp) {     
+        // if( temp.find("[*") != std::string::npos  && temp.find("*]") != std::string::npos )
+        // {
+        //     file >> temp;
+        // }    
+
+        bool isComment = false;
+        if( temp.find("[*") != std::string::npos)
+        {
+                isComment = true;
+        }    
+        if( temp.find("*]") != std::string::npos)
+        {
+                isComment = false;
+        }
+        
         recordList = lexer(temp);
         for (int x = 0; x < recordList.size(); x++) {
             std::cout << recordList[x] << "\n";
@@ -69,6 +87,7 @@ void scanFile(std::ifstream &file) {
         std::cin >> choice; }
     } while (choice != 1 && choice != 2);
     
-    Rat20su(lexVec[0]); 
+    userLex = lexVec[0];
+    Rat20su(userLex); //Start with the very first lexeme.
     userOutput.close();
 }

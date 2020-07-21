@@ -35,16 +35,3 @@ Token: Identifier	Lexeme: sum
 Token: Operator  	Lexeme: +
 Token: Identifier	Lexeme: i
 Token: Separator	Lexeme: ;
-Token: Identifier	Lexeme: i
-Token: Operator  	Lexeme: =
-Token: Identifier	Lexeme: i
-Token: Operator  	Lexeme: +
-Token: Integer  	Lexeme: 1
-Token: Separator	Lexeme: ;
-Token: Separator	Lexeme: }
-Token: Identifier	Lexeme: sum
-Token: Operator  	Lexeme: =
-Token: Identifier	Lexeme: sum
-Token: Operator  	Lexeme: +
-Token: Identifier	Lexeme: max
-Token: Separator	Lexeme: ;
