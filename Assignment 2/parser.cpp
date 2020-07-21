@@ -50,7 +50,7 @@ void OptDeclarationList(std::string lexemeInput)
 {
    
     std::cout << "\nLexeme passed in: " << lexemeInput << "\n";
-    if (lexemeInput == "int" || lexemeInput == "bool") //May need to fix these inside of our code, change int and bool to integer and boolean
+    if (lexemeInput == "integer" || lexemeInput == "boolean") //May need to fix these inside of our code, change int and bool to integer and boolean
     {
         std::cout << "Passing in: " << parseList[recIndex] << "\n";
         if (printSw) {std::cout <<"<Opt Declaration List> => <Declaration List>   |    <Empty> \n";}
