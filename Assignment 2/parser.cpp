@@ -88,6 +88,7 @@ void DeclarationListPrime(std::string lexemeInput)
 {
     std::cout << "\nLexeme passed in: " << lexemeInput << "\n";
     
+    //<Declaration List>
     if (lexemeInput == "integer" || lexemeInput == "boolean")
     {
         std::cout << "Passing in: " << parseList[recIndex] << "\n";
@@ -95,6 +96,7 @@ void DeclarationListPrime(std::string lexemeInput)
 
         DeclarationList(userLex);
     }
+    //Epsilon
     else
     {
         std::cout << "\nPassing in: " << parseList[recIndex] << "\n";
@@ -109,6 +111,13 @@ void Declaration(std::string lexemeInput)
 
     if (printSw) { std::cout << "<Declaration> -> <Qualifier>  <Identifier>\n";}
     Qualifier(lexemeInput);
+    if (tokenVec[recIndex] == "Identifier") {
+    std::cout << "<Identifier>\n";
+    std::cout <<"Identifier: " << parseList[recIndex] << "\n";
+    }
+    else {
+        std::cout << "Error, identifier expected\n";
+    }
     userLex = lexerCall();
 
     ////
@@ -118,15 +127,16 @@ void Declaration(std::string lexemeInput)
 //<Qualifier> -> integer |  boolean
 void Qualifier(std::string lexemeInput)
 {
-    std::cout << "\nLexeme passed in: " << lexemeInput << "\n";
+    std::cout << "Lexeme passed in: " << lexemeInput << "\n";
 
     if (lexemeInput == "integer")
     {
         std::cout << "Passing in: " << parseList[recIndex] << "\n";
         if (printSw) { std::cout << "<Qualifier> -> integer\n";} //Change to integer later?
         userLex = lexerCall();
+        
         ////
-        std::cout << "\nThe userlex is " << userLex << "\n";
+        //std::cout << "\nThe userlex is " << userLex << "\n";
         
     }
     else if (lexemeInput == "boolean")
@@ -149,7 +159,66 @@ void Identifier(std::string lexemeInput) { //Maybe need to change this to someth
     }
 }
 
-void Empty(std::string lexemeInput) //Maybe get rid of this later on?
-{
-    std::cout << "\nempty";
+//<StatementList> -> <Statement> <Statement List Prime>
+void StatementList(std::string lexemeInput) {
+
+    std::cout << "\nLexeme passed in: " << lexemeInput << "\n";
+    std::cout << "Passing in: " << parseList[recIndex] << "\n";
+    if (printSw) { std::cout << "<Statement List> -> <Statement> <Statement List Prime>\n";}
+    Statement(lexemeInput);
+}
+
+//<StatementListPrime> -> <StatementList> | Epsilon
+void StatementListPrime(std::string lexemeInput) {
+
+    //<StatementList>
+    if (lexemeInput == "if" || lexemeInput == "fi" || lexemeInput == "get" ||
+    lexemeInput == "put" || lexemeInput == "while" || lexemeInput == "{" || lexemeInput == "}")
+    {
+        std::cout << "\nLexeme passed in: " << lexemeInput << "\n";
+        std::cout << "Passing in: " << parseList[recIndex] << "\n";
+        Statement(lexemeInput);
+    }
+    //epsilon
+    else {if (printSw) { std::cout << "<Statement List Prime> -> Epsilon\n";}
+
+    }
+}
+
+//<Statement> -> <Compound>  |  <Assign>  |   <If>  |  <Get>   |   <Put>   |  <While> 
+void Statement(std::string lexemeInput) {
+
+    std::cout << "\nLexeme passed in: " << lexemeInput << "\n";
+    std::cout << "Passing in: " << parseList[recIndex] << "\n";
+
+    if (lexemeInput == "{")
+    {
+        if (printSw) { std::cout << "<Statement> -> <Compound>>\n";}
+        Compound(lexemeInput);
+    }
+    else if (tokenVec[recIndex] == "identifier")
+    {
+        if (printSw) { std::cout << "<Statement> -> <Assign>>\n";}
+        Assign(lexemeInput);
+    }
+    else if (lexemeInput == "if")
+    {
+        if (printSw) { std::cout << "<Statement> -> <if>\n";}
+        If(lexemeInput);
+    }
+    else if (lexemeInput == "get")
+    {
+        if (printSw) { std::cout << "<Statement> -> <Get>\n";}
+        Get(lexemeInput);
+    }
+    else if (lexemeInput == "put")
+    {
+        if (printSw) { std::cout << "<Statement> -> <Put>\n";}
+        Put(lexemeInput);
+    }
+    else if (lexemeInput == "while")
+    {
+        if (printSw) { std::cout << "<Statement> -> <While>\n";}
+        While(lexemeInput);
+    }
 }
