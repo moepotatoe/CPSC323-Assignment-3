@@ -54,8 +54,7 @@ void OptDeclarationList(std::string lexemeInput)
     {
         std::cout << "Passing in: " << parseList[recIndex] << "\n";
         if (printSw) {std::cout <<"<Opt Declaration List> => <Declaration List>   |    <Empty> \n";}
-
-        userLex = lexerCall();
+        //No lexer call. Not nonterminal.
         DeclarationList(userLex);
     }
     else{} //Empty do nothing
@@ -89,7 +88,7 @@ void DeclarationListPrime(std::string lexemeInput)
 {
     std::cout << "\nLexeme passed in: " << lexemeInput << "\n";
     
-    if (lexemeInput == "int" || lexemeInput == "bool")
+    if (lexemeInput == "integer" || lexemeInput == "boolean")
     {
         std::cout << "Passing in: " << parseList[recIndex] << "\n";
         if (printSw) { std::cout << "<Declaration List Prime> -> <Declaration List> \n";}
@@ -110,7 +109,10 @@ void Declaration(std::string lexemeInput)
 
     if (printSw) { std::cout << "<Declaration> -> <Qualifier>  <Identifier>\n";}
     Qualifier(lexemeInput);
-    Identifier(lexemeInput); //Might need to store inside a temp variable? lexemeInput might be changing?
+    userLex = lexerCall();
+
+    ////
+    std::cout <<"\nAfter qualifier, userlex is " << userLex << "\n";//identifier is already used up?
 }
 
 //<Qualifier> -> integer |  boolean
@@ -123,6 +125,9 @@ void Qualifier(std::string lexemeInput)
         std::cout << "Passing in: " << parseList[recIndex] << "\n";
         if (printSw) { std::cout << "<Qualifier> -> integer\n";} //Change to integer later?
         userLex = lexerCall();
+        ////
+        std::cout << "\nThe userlex is " << userLex << "\n";
+        
     }
     else if (lexemeInput == "boolean")
     {
@@ -136,7 +141,7 @@ void Qualifier(std::string lexemeInput)
     }
 }
 
-void Identifier(std::string lexemeInput) {
+void Identifier(std::string lexemeInput) { //Maybe need to change this to something else, apparently doesn't need its own function
     if (tokenVec[recIndex] == "Identifier")
     {
         if (printSw) { std::cout << "<Identifier> -> identifier\n";}
