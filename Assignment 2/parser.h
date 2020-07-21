@@ -10,7 +10,7 @@ void DeclarationList(std::string token);
 void DeclarationListPrime(std::string lexemeInput);
 void Declaration(std::string lexemeInput);
 void Qualifier(std::string lexemeInput);
-//void Identifier(std::string lexemeInput);
+void Identifier(std::string lexemeInput);
 
 
 void Empty(std::string lexemeInput);

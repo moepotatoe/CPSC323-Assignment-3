@@ -142,7 +142,7 @@ bool isOperator(char ch) {
 
 bool isKeyword(std::string st) {
     if(st == "if" || st == "fi" || st == "else" || st == "put" || st == "get" || st == "if" || st == "while" || 
-    st == "return" || st == "bool" || st == "true" || st == "false" || st == "int" || st == "double" 
+    st == "return" || st == "boolean" || st == "true" || st == "false" || st == "integer" || st == "double" 
     || st == "float" ||  st == "string" || st == "char" || st == "if" || st == "break" ||st == "otherwise") { return true; }
     else { return false; }
 }
