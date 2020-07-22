@@ -73,6 +73,7 @@ void DeclarationList(std::string lexemeInput)
     Declaration(lexemeInput);
     if (userLex == ";")
     {
+        std::cout << "; was detected\n";
         userLex = lexerCall(); //Get new lexeme
         std::cout << parseList[recIndex];
         DeclarationListPrime(userLex);
@@ -234,7 +235,7 @@ void Compound(std::string lexemeInput) {
         userLex = lexerCall();
         std::cout << parseList[recIndex] << "\n";
         StatementList(userLex);
-        if (lexemeInput == "}") {        
+        if (userLex == "}") {        
             userLex = lexerCall(); 
             std::cout << parseList[recIndex] << "\n";}
         else {
@@ -263,8 +264,10 @@ void Assign(std::string lexemeInput) {
         else std::cout << "Error: '=' expected\n";
 
         // userLex = lexerCall();
-        Expression(lexemeInput);
-        if (lexemeInput == ";") { userLex = lexerCall(); 
+
+        //Changing...
+        Expression(userLex);
+        if (userLex == ";") { userLex = lexerCall(); 
         std::cout << parseList[recIndex];
         }
         else std::cout << "Error: ';' expected\n";
@@ -447,6 +450,7 @@ void Factor(std::string lexemeInput) {
 
 //<Primary> -> <Identifier>  |  <Integer>  |  ( <Expression> )   |  true   |  false
 void Primary(std::string lexemeInput) {
+    
     if (tokenVec[recIndex] == "Identifier")
     {
         if (printSw) {std::cout << "<Primary> -> <Identifier>\n";}

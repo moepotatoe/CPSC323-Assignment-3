@@ -41,7 +41,7 @@ std::vector<std::string> lexer(std::string input) {
                 tempInt.push_back(input[y]);
                 y++;
             }
-            token = "Integer  ";
+            token = "Integer";
             lexeme = tempInt;
             tokenVec.push_back(token);
             lexVec.push_back(lexeme);
@@ -59,7 +59,7 @@ std::vector<std::string> lexer(std::string input) {
             }
             /* If it is a keyword */
             if (identifierDFSM(input) == 2) {
-                token = "Keyword ";
+                token = "Keyword";
                 lexeme = tempID;
                 tokenVec.push_back(token);
                 lexVec.push_back(lexeme);
