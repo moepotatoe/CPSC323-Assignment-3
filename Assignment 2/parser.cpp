@@ -34,7 +34,7 @@ void Rat20su(std::string lexemeInput) { //Start from here.
         userLex = lexerCall();
         
         OptDeclarationList(userLex); //Call after incrementing
-        //Statement list function here
+        StatementList(userLex);
 
         if (lexemeInput != "$$") //eof marker?
         {
@@ -53,11 +53,11 @@ void OptDeclarationList(std::string lexemeInput)
     if (lexemeInput == "integer" || lexemeInput == "boolean") //May need to fix these inside of our code, change int and bool to integer and boolean
     {
         std::cout << "Passing in: " << parseList[recIndex] << "\n";
-        if (printSw) {std::cout <<"<Opt Declaration List> => <Declaration List>   |    <Empty> \n";}
+        if (printSw) {std::cout <<"<Opt Declaration List> => <Declaration List>\n";}
         //No lexer call. Not nonterminal.
         DeclarationList(userLex);
     }
-    else{} //Empty do nothing
+    else{if (printSw) {std::cout <<"<Opt Declaration List> => <Empty>\n";}} //Empty do nothing
     
 }
 
@@ -74,7 +74,7 @@ void DeclarationList(std::string lexemeInput)
     if (userLex == ";")
     {
         userLex = lexerCall(); //Get new lexeme
-        std::cout << userLex;
+        std::cout << parseList[recIndex];
         DeclarationListPrime(userLex);
     }
     else {
@@ -166,6 +166,7 @@ void StatementList(std::string lexemeInput) {
     std::cout << "Passing in: " << parseList[recIndex] << "\n";
     if (printSw) { std::cout << "<Statement List> -> <Statement> <Statement List Prime>\n";}
     Statement(lexemeInput);
+    StatementListPrime(userLex);
 }
 
 //<StatementListPrime> -> <StatementList> | Epsilon
@@ -191,37 +192,166 @@ void Statement(std::string lexemeInput) {
     std::cout << "\nLexeme passed in: " << lexemeInput << "\n";
     std::cout << "Passing in: " << parseList[recIndex] << "\n";
 
-    // if (lexemeInput == "{")
-    // {
-    //     if (printSw) { std::cout << "<Statement> -> <Compound>>\n";}
-    //     Compound(lexemeInput);
-    // }
-    // else if (tokenVec[recIndex] == "identifier")
-    // {
-    //     if (printSw) { std::cout << "<Statement> -> <Assign>>\n";}
-    //     Assign(lexemeInput);
-    // }
-    // else if (lexemeInput == "if")
-    // {
-    //     if (printSw) { std::cout << "<Statement> -> <if>\n";}
-    //     If(lexemeInput);
-    // }
-    // else if (lexemeInput == "get")
-    // {
-    //     if (printSw) { std::cout << "<Statement> -> <Get>\n";}
-    //     Get(lexemeInput);
-    // }
-    // else if (lexemeInput == "put")
-    // {
-    //     if (printSw) { std::cout << "<Statement> -> <Put>\n";}
-    //     Put(lexemeInput);
-    // }
-    // else if (lexemeInput == "while")
-    // {
-    //     if (printSw) { std::cout << "<Statement> -> <While>\n";}
-    //     While(lexemeInput);
-    // }
+    if (lexemeInput == "{")
+    {
+        if (printSw) { std::cout << "<Statement> -> <Compound>>\n";}
+        Compound(lexemeInput);
+    }
+    else if (tokenVec[recIndex] == "Identifier")
+    {
+        if (printSw) { std::cout << "<Statement> -> <Assign>>\n";}
+        Assign(lexemeInput);
+    }
+    else if (lexemeInput == "if")
+    {
+        if (printSw) { std::cout << "<Statement> -> <if>\n";}
+        If(lexemeInput);
+    }
+    else if (lexemeInput == "get")
+    {
+        if (printSw) { std::cout << "<Statement> -> <Get>\n";}
+        Get(lexemeInput);
+    }
+    else if (lexemeInput == "put")
+    {
+        if (printSw) { std::cout << "<Statement> -> <Put>\n";}
+        Put(lexemeInput);
+    }
+    else if (lexemeInput == "while")
+    {
+        if (printSw) { std::cout << "<Statement> -> <While>\n";}
+        While(lexemeInput);
+    }
 }
+
+
+
+// R8. <Compound> ::=   {  <Statement List>  } 
+void Compound(std::string lexemeInput) {
+    if (lexemeInput == "{") {
+        if (printSw) { std::cout << "<Compound> -> {  <Statement List>  }\n"; }
+    
+        userLex = lexerCall();
+        std::cout << parseList[recIndex] << "\n";
+        StatementList(userLex);
+        if (lexemeInput == "}") {        
+            userLex = lexerCall(); 
+            std::cout << parseList[recIndex] << "\n";}
+        else {
+            std::cout << "Error: '}' expected\n";
+            system("Pause");}
+        }
+    else {
+        std::cout << "Error: '{' expected\n";
+        system("Pause");
+    }
+}
+
+// R9. <Assign> ::=     <Identifier> = <Expression> ;
+void Assign(std::string lexemeInput) {
+
+    if (tokenVec[recIndex] == "Identifier"){
+        if (printSw) { std::cout << "<Assign> -> <Identifier> = <Expression> ;\n"; }
+        //Identifier(lexemeInput);
+        userLex = lexerCall();
+        std::cout << parseList[recIndex] << "\n";
+
+        if (userLex == "=") { 
+            userLex = lexerCall(); 
+            std::cout << parseList[recIndex] << "\n";
+        }
+        else std::cout << "Error: '=' expected\n";
+
+        // userLex = lexerCall();
+        Expression(lexemeInput);
+        if (lexemeInput == ";") { userLex = lexerCall(); 
+        std::cout << parseList[recIndex];
+        }
+        else std::cout << "Error: ';' expected\n";
+        // userLex = lexerCall();
+        }
+}
+
+// R10. <If> ::=     if  ( <Condition>  ) <Statement>   fi   |   if  ( <Condition>  ) <Statement>   otherwise  <Statement>  fi 
+void If(std::string lexemeInput) {
+    if (printSw) { std::cout << "<If> ::=     if  ( <Condition>  ) <Statement>   fi   |   if  ( <Condition>  ) <Statement>   otherwise  <Statement>  fi\n"; }
+    if (lexemeInput == "(") { userLex = lexerCall(); }
+    else std::cout << "Error: '(' expected\n";
+    // userLex = lexerCall();
+    Condition(lexemeInput);
+    if (lexemeInput == ")") { userLex = lexerCall(); }
+    else std::cout << "Error: ')' expected\n";
+    // userLex = lexerCall();
+    Statement(lexemeInput);
+    if (lexemeInput == "otherwise") { Statement(lexemeInput); }
+    // double check
+    if (lexemeInput == "if") { userLex = lexerCall(); }
+    else std::cout << "Error: 'if' keyword expected\n";
+    // userLex = lexerCall();
+}
+
+// R11. <Put> ::=     put ( <identifier> );
+void Put(std::string lexemeInput) {
+    if (printSw) { std::cout << "<Put> ::=     put ( <identifier> );\n"; }
+    if (lexemeInput == "(") { userLex = lexerCall(); }
+    else std::cout << "Error: '(' expected\n";
+    // userLex = lexerCall();
+    Identifier(lexemeInput);
+    if (lexemeInput == ")") { userLex = lexerCall(); }
+    else std::cout << "Error: ')' expected\n";
+    // userLex = lexerCall();
+    if (lexemeInput == ";") { userLex = lexerCall(); }
+    else std::cout << "Error: ';' expected\n";
+    // userLex = lexerCall();
+}
+
+// R12. <Get> ::=    get ( <Identifier> );
+void Get(std::string lexemeInput) {
+    if (printSw) { std::cout << "<Get> ::=     get ( <Identifier> );\n"; }
+    if (lexemeInput == "(") { userLex = lexerCall(); }
+    else std::cout << "Error: '(' expected\n";
+    // userLex = lexerCall();
+    Identifier(lexemeInput);
+    if (lexemeInput == ")") { userLex = lexerCall(); }
+    else std::cout << "Error: ')' expected\n";
+    // userLex = lexerCall();
+    if (lexemeInput == ";") { userLex = lexerCall(); }
+    else std::cout << "Error: ';' expected\n";
+    // userLex = lexerCall();
+}
+
+// R13. <While> ::=  while ( <Condition>  )  <Statement>  
+void While(std::string lexemeInput) {
+    if (printSw) { std::cout << "<While> ::=  while ( <Condition>  )  <Statement>\n"; }
+    if (lexemeInput == "(") { userLex = lexerCall(); }
+    else std::cout << "Error: '(' expected\n";
+    // userLex = lexerCall();
+    Condition(lexemeInput);
+    if (lexemeInput == ")") { userLex = lexerCall(); }
+    else std::cout << "Error: ')' expected\n";
+    // userLex = lexerCall();
+    Statement(lexemeInput);
+    // Error check here? 
+    // userLex = lexerCall();
+}
+
+// R14. <Condition> ::=     <Expression>  <Relop>   <Expression>
+void Condition(std::string lexemeInput) {
+    if (printSw) { std::cout << "<Condition> ::=     <Expression>  <Relop>   <Expression>\n"; }
+    Expression(lexemeInput);
+    Relop(lexemeInput);
+    userLex = lexerCall();
+    Expression(lexemeInput);
+}
+
+// R15. <Relop> ::=        ==     |    >     |   <          
+void Relop(std::string lexemeInput) {
+    if (lexemeInput != "==" && lexemeInput != ">" && lexemeInput != "<") {
+        std::cout << "Error: relational operator expected\n";
+    }
+    if (printSw) { std::cout << "<Relop> ::=        " << lexemeInput << std::endl; }
+}
+
 
 
 //<Expression> -> <Term> <Expression Prime>
