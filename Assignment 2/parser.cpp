@@ -227,72 +227,85 @@ void Statement(std::string lexemeInput) {
 void Compound(std::string lexemeInput) {
     if (printSw) { std::cout << "<Compound> ::=   {  <Statement List>  }\n"; }
     StatementList(lexemeInput);
-    if (lexemeInput != "}") { std::cout << "Error: '}' expected\n"; }
-    userLex = lexerCall();
+    if (lexemeInput == "}") { userLex = lexerCall(); }
+    else std::cout << "Error: '}' expected\n";
 }
 
 // R9. <Assign> ::=     <Identifier> = <Expression> ;
 void Assign(std::string lexemeInput) {
     if (printSw) { std::cout << "<Assign> ::=     <Identifier> = <Expression> ;\n"; }
     Identifier(lexemeInput);
-    userLex = lexerCall();
-    if (lexemeInput != "=") { "Error: '=' expected\n"; }
-    userLex = lexerCall();
+    // userLex = lexerCall();
+    if (lexemeInput == "=") { userLex = lexerCall(); }
+    else std::cout << "Error: '=' expected\n";
+    // userLex = lexerCall();
     Expression(lexemeInput);
-    if (lexemeInput != ";") { "Error: ';' expected\n"; }
-    userLex = lexerCall();
+    if (lexemeInput == ";") { userLex = lexerCall(); }
+    else std::cout << "Error: ';' expected\n";
+    // userLex = lexerCall();
 }
 
 // R10. <If> ::=     if  ( <Condition>  ) <Statement>   fi   |   if  ( <Condition>  ) <Statement>   otherwise  <Statement>  fi 
 void If(std::string lexemeInput) {
     if (printSw) { std::cout << "<If> ::=     if  ( <Condition>  ) <Statement>   fi   |   if  ( <Condition>  ) <Statement>   otherwise  <Statement>  fi\n"; }
-    if (lexemeInput != "(") { std::cout << "Error: '(' expected\n"; }
-    userLex = lexerCall();
+    if (lexemeInput == "(") { userLex = lexerCall(); }
+    else std::cout << "Error: '(' expected\n";
+    // userLex = lexerCall();
     Condition(lexemeInput);
-    if (lexemeInput != ")") { std::cout << "Error: ')' expected\n"; }
-    userLex = lexerCall();
+    if (lexemeInput == ")") { userLex = lexerCall(); }
+    else std::cout << "Error: ')' expected\n";
+    // userLex = lexerCall();
     Statement(lexemeInput);
     if (lexemeInput == "otherwise") { Statement(lexemeInput); }
     // double check
-    if (lexemeInput != "if") { std::cout << "Error: 'if' keyword expected\n"; }
-    userLex = lexerCall();
+    if (lexemeInput == "if") { userLex = lexerCall(); }
+    else std::cout << "Error: 'if' keyword expected\n";
+    // userLex = lexerCall();
 }
 
 // R11. <Put> ::=     put ( <identifier> );
 void Put(std::string lexemeInput) {
     if (printSw) { std::cout << "<Put> ::=     put ( <identifier> );\n"; }
-    if (lexemeInput != "(") { std::cout << "Error: '(' expected\n"; }
-    userLex = lexerCall();
+    if (lexemeInput == "(") { userLex = lexerCall(); }
+    else std::cout << "Error: '(' expected\n";
+    // userLex = lexerCall();
     Identifier(lexemeInput);
-    if (lexemeInput != ")") { std::cout << "Error: ')' expected\n"; }
-    userLex = lexerCall();
-    if (lexemeInput != ";") { std::cout << "Error: ';' expected\n"; }
-    userLex = lexerCall();
+    if (lexemeInput == ")") { userLex = lexerCall(); }
+    else std::cout << "Error: ')' expected\n";
+    // userLex = lexerCall();
+    if (lexemeInput == ";") { userLex = lexerCall(); }
+    else std::cout << "Error: ';' expected\n";
+    // userLex = lexerCall();
 }
 
 // R12. <Get> ::=    get ( <Identifier> );
 void Get(std::string lexemeInput) {
     if (printSw) { std::cout << "<Get> ::=     get ( <Identifier> );\n"; }
-    if (lexemeInput != "(") { std::cout << "Error: '(' expected\n"; }
-    userLex = lexerCall();
+    if (lexemeInput == "(") { userLex = lexerCall(); }
+    else std::cout << "Error: '(' expected\n";
+    // userLex = lexerCall();
     Identifier(lexemeInput);
-    if (lexemeInput != ")") { std::cout << "Error: ')' expected\n"; }
-    userLex = lexerCall();
-    if (lexemeInput != ";") { std::cout << "Error: ';' expected\n"; }
-    userLex = lexerCall();
+    if (lexemeInput == ")") { userLex = lexerCall(); }
+    else std::cout << "Error: ')' expected\n";
+    // userLex = lexerCall();
+    if (lexemeInput == ";") { userLex = lexerCall(); }
+    else std::cout << "Error: ';' expected\n";
+    // userLex = lexerCall();
 }
 
 // R13. <While> ::=  while ( <Condition>  )  <Statement>  
 void While(std::string lexemeInput) {
     if (printSw) { std::cout << "<While> ::=  while ( <Condition>  )  <Statement>\n"; }
-    if (lexemeInput != "(") { std::cout << "Error: '(' expected\n"; }
-    userLex = lexerCall();
+    if (lexemeInput == "(") { userLex = lexerCall(); }
+    else std::cout << "Error: '(' expected\n";
+    // userLex = lexerCall();
     Condition(lexemeInput);
-    if (lexemeInput != ")") { std::cout << "Error: ')' expected\n"; }
-    userLex = lexerCall();
+    if (lexemeInput == ")") { userLex = lexerCall(); }
+    else std::cout << "Error: ')' expected\n";
+    // userLex = lexerCall();
     Statement(lexemeInput);
     // Error check here? 
-    userLex = lexerCall();
+    // userLex = lexerCall();
 }
 
 // R14. <Condition> ::=     <Expression>  <Relop>   <Expression>
