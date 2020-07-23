@@ -1,7 +1,8 @@
 $$
-int i_i;
-int max;
-int sum;   
+[* Comment code *]
+integer i;
+integer max;
+integer sum;   
 sum = 0;
 i = 1;
 get (max);

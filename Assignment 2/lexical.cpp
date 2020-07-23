@@ -74,8 +74,8 @@ std::vector<std::string> lexer(std::string input) {
                 result = "Token: " + token + "\tLexeme: " + lexeme;
                 records.push_back(result);
                 x = y-1;
-            }
-        }
+            }               
+        }               
     }
     return records;
 }
