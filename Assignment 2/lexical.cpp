@@ -5,10 +5,8 @@ std::vector<std::string> lexer(std::string input) {
     std::string result, temp;
     std::vector<std::string> records;
    
-
     /* Go through each character */
     for (int x = 0; x < input.size(); x++) {
-
         /* Store token and lexeme into a result string. Push result string onto a vector of strings called records. Lexer will return records. */
         /* Check if it is a separator. */
         if (bool separatorCheck = isSeparator(input[x])) {

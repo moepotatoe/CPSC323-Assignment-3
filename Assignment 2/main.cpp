@@ -33,35 +33,35 @@ void scanFile(std::ifstream &file) {
     int x = 0;
     std::string temp;
     std::vector<std::string> recordList;
-
-    
-   
+    bool isComment = false;
     std::string lexerOutput = "";
     std::cout << "\nScanning file with words and index numbers...\n";
     userOutput << "Token \t Lexeme\n";
 
-    while (file >> temp) {     
-        // if( temp.find("[*") != std::string::npos  && temp.find("*]") != std::string::npos )
-        // {
-        //     file >> temp;
-        // }    
-
-        bool isComment = false;
-        if( temp.find("[*") != std::string::npos)
+    while (file >> temp) {      
+        //Check for comments before calling a lexer.
+        if (temp == "[*")
         {
-                isComment = true;
-        }    
-        if( temp.find("*]") != std::string::npos)
-        {
-                isComment = false;
+            isComment = true;
         }
-        
+        if (isComment)
+        {
+            file >> temp;
+        }
+        if (temp == "*]")
+        {
+            isComment = false;
+            file >> temp;
+        } 
+
+        if (!isComment){
         recordList = lexer(temp);
         for (int x = 0; x < recordList.size(); x++) {
             std::cout << recordList[x] << "\n";
             userOutput << recordList[x] << "\n"; //output to terminal
             
             parseList.push_back(recordList[x]); //Adds to a bigger global parse list
+        }
         }
     }
     // for (int x = 0; x < lexVec.size(); x++)
@@ -90,4 +90,5 @@ void scanFile(std::ifstream &file) {
     userLex = lexVec[0];
     Rat20su(userLex); //Start with the very first lexeme.
     userOutput.close();
+    system("Pause");
 }
