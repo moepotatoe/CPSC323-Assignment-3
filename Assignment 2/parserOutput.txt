@@ -1,0 +1,58 @@
+Token: Separator	Lexeme: $$
+<Rat20SU>  =>   $$  <Opt Declaration List>    <Statement List> $$ 
+
+Token: Keyword  	Lexeme: integer
+<Opt Declaration List> => <Declaration List>
+Token: Keyword  	Lexeme: integer
+<Declaration List> -> <Declaration> ; <Declaration List Prime>
+Token: Keyword  	Lexeme: integer
+<Declaration> -> <Qualifier>  <Identifier>
+Token: Keyword  	Lexeme: integer
+<Qualifier> -> integer
+<Identifier>
+Identifier detected
+Token: Identifier	Lexeme: i
+Token: Keyword  	Lexeme: integerToken: Keyword  	Lexeme: integer
+<Declaration List Prime> -> <Declaration List> 
+Token: Keyword  	Lexeme: integer
+<Declaration List> -> <Declaration> ; <Declaration List Prime>
+Token: Keyword  	Lexeme: integer
+<Declaration> -> <Qualifier>  <Identifier>
+Token: Keyword  	Lexeme: integer
+<Qualifier> -> integer
+<Identifier>
+Identifier detected
+Token: Identifier	Lexeme: max
+Token: Keyword  	Lexeme: integerToken: Keyword  	Lexeme: integer
+<Declaration List Prime> -> <Declaration List> 
+Token: Keyword  	Lexeme: integer
+<Declaration List> -> <Declaration> ; <Declaration List Prime>
+Token: Keyword  	Lexeme: integer
+<Declaration> -> <Qualifier>  <Identifier>
+Token: Keyword  	Lexeme: integer
+<Qualifier> -> integer
+<Identifier>
+Identifier detected
+Token: Identifier	Lexeme: sum
+Token: Identifier	Lexeme: sumToken: Identifier	Lexeme: sum
+<Declaration List Prime> -> Epsilon 
+Token: Identifier	Lexeme: sum
+<Statement List> -> <Statement> <Statement List Prime>
+Token: Identifier	Lexeme: sum
+<Statement> -> <Assign>>
+<Assign> -> <Identifier> = <Expression> ;
+Token: Operator  	Lexeme: =
+Token: Integer	Lexeme: 0
+Token: Integer	Lexeme: 0
+<Expression> -> <Term> <Expression Prime>
+<Term> -> <Factor> <Term Prime>
+<Factor> -> <Primary>
+<Primary> -> <Integer>
+Integer detected
+Token: Separator	Lexeme: ;
+<Term Prime> -> Epsilon
+Token: Separator	Lexeme: ;
+<Expression Prime> -> Epsilon
+Token: Identifier	Lexeme: i
+<Statement List Prime> -> Epsilon
+Error: $$ expected.

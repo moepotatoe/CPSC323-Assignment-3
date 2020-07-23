@@ -17,10 +17,10 @@ int pi = 3.14;
 
 	int y = m * x + b;
 
-	int x1 = 25;
-	int x2 = 10;
-	int y1 = 10;
-	int y2 = 25;
+	int r = 25;
+	int s = 10;
+	int t = 10;
+	int u = 25;
 
-	int slope = ((y2 - y1) / (x2 - x1));
+	int slope = ((r - s) / (t - u));
 $$
