@@ -2,6 +2,7 @@
 #include "lexical.cpp"
 #include "parser.h"
 #include "parser.cpp"
+#include <string>
 
 void getFile(std::ifstream &file);
 void scanFile(std::ifstream &file);
@@ -32,12 +33,28 @@ void scanFile(std::ifstream &file) {
     int x = 0;
     std::string temp;
     std::vector<std::string> recordList;
-   
+    bool isComment = false;
     std::string lexerOutput = "";
     std::cout << "\nScanning file with words and index numbers...\n";
     userOutput << "Token \t Lexeme\n";
-    while (file >> temp) {
-        x++;
+
+    while (file >> temp) {      
+        //Check for comments before calling a lexer.
+        if (temp == "[*")
+        {
+            isComment = true;
+        }
+        if (isComment)
+        {
+            file >> temp;
+        }
+        if (temp == "*]")
+        {
+            isComment = false;
+            file >> temp;
+        } 
+
+        if (!isComment){
         recordList = lexer(temp);
         for (int x = 0; x < recordList.size(); x++) {
             std::cout << recordList[x] << "\n";
@@ -45,10 +62,11 @@ void scanFile(std::ifstream &file) {
             
             parseList.push_back(recordList[x]); //Adds to a bigger global parse list
         }
+        }
     }
     // for (int x = 0; x < lexVec.size(); x++)
     // {
-    //     std::cout << "Parse list " << x;
+    //     std::cout << "Lexers list " << x;
     //     std::cout << "\n" << lexVec[x] << "\n ";
     // }
     // for (int x = 0; x < parseList.size(); x++)
@@ -56,7 +74,7 @@ void scanFile(std::ifstream &file) {
     //     std::cout << "Parse list " << x;
     //     std::cout << "\n" << parseList[x] << "\n ";
     // }
-    std::cout << "\nWould you like to toggle printing? 1 - Yes 2 - No : ";
+    std::cout << "\n\n\nWould you like to toggle printing? 1 - Yes 2 - No : ";
     int choice;
     std::cin >> choice;
     do {
@@ -69,6 +87,8 @@ void scanFile(std::ifstream &file) {
         std::cin >> choice; }
     } while (choice != 1 && choice != 2);
     
-    Rat20su(lexVec[0]); 
+    userLex = lexVec[0];
+    Rat20su(userLex); //Start with the very first lexeme.
     userOutput.close();
+    system("Pause");
 }
