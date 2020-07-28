@@ -26,6 +26,11 @@ std::vector<std::string> lexer(std::string input) {
         else if (bool operatorCheck = isOperator(input[x])) {
             token = "Operator";
             lexeme = input[x];
+            if (input[x] == '=' && input[x+1] == '=') //Since this reads in one character at a time, check if the next character is also a $.
+            {   
+                lexeme = "=="; //If it is true, add another = to the lexeme and increment x to skip over it.
+                x++;
+            }
             tokenVec.push_back(token);
             lexVec.push_back(lexeme);
             result = "Token: " + token + "  \tLexeme: " + lexeme;

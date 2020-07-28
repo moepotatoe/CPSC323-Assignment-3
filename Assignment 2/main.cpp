@@ -44,14 +44,10 @@ void scanFile(std::ifstream &file) {
         {
             isComment = true;
         }
-        if (isComment)
-        {
-            file >> temp;
-        }
         if (temp == "*]")
         {
             isComment = false;
-            file >> temp;
+            file >> temp; //Get the new file ready
         } 
 
         if (!isComment){

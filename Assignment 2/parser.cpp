@@ -73,9 +73,11 @@ void DeclarationList(std::string& userLex)
     Declaration(userLex);
     if (userLex == ";")
     {
+        std::cout << parseList[recIndex] << "\n";
+        pOut << parseList[recIndex] << "\n";
         userLex = lexerCall(); //Get new lexeme
-        std::cout << parseList[recIndex];
-        pOut << parseList[recIndex];
+        std::cout << parseList[recIndex] << "\n";
+        pOut << parseList[recIndex] << "\n";
         DeclarationListPrime(userLex);
     }
     else {
@@ -162,6 +164,8 @@ void Identifier(std::string& userLex) { //Maybe need to change this to something
     {
         if (printSw) { std::cout << "<Identifier> -> identifier\n";
         pOut << "<Identifier> -> identifier\n";}
+        std::cout << parseList[recIndex] << "\n";
+        pOut << parseList[recIndex] << "\n";
         userLex = lexerCall();
     }
 }
@@ -352,9 +356,15 @@ void If(std::string& userLex) {
 
 // R11. <Put> ::=     put ( <identifier> );
 void Put(std::string& userLex) {
-    if (userLex == "(") { userLex = lexerCall();   
+
+    if (userLex == "put") {
         if (printSw) { std::cout << "<Put> ::=     put ( <identifier> );\n"; }  
+        userLex = lexerCall();
+        
+        if (userLex == "(") { userLex = lexerCall();      
+        
         Identifier(userLex);
+
         if (userLex == ")") { userLex = lexerCall(); }
         else {std::cout << "Error: ')' expected\n";
         pOut << "Error: ')' expected\n";}
@@ -362,9 +372,12 @@ void Put(std::string& userLex) {
         if (userLex == ";") { userLex = lexerCall(); }
         else {std::cout << "Error: ';' expected\n";
         pOut << "Error: ';' expected\n";}
-    }
-    else {std::cout << "Error: '(' expected\n";
-    pOut << "Error: '(' expected\n";}
+        }
+        else {std::cout << "Error: '(' expected\n";
+        pOut << "Error: '(' expected\n";}
+
+    } else { std::cout << "Error: 'put' expected\n";
+        pOut << "Error: 'put' expected\n";}
     // userLex = lexerCall();
 }
 
@@ -372,13 +385,29 @@ void Put(std::string& userLex) {
 void Get(std::string& userLex) {
     if (userLex == "get"){
         if (printSw) { std::cout << "<Get> ::=     get ( <Identifier> );\n"; }
-        if (userLex == "(") { userLex = lexerCall();
+        std::cout << parseList[recIndex] << "\n";
+        pOut << parseList[recIndex] << "\n";
+        userLex = lexerCall();
+
+        if (userLex == "(") { 
+            std::cout << parseList[recIndex] << "\n";
+            pOut << parseList[recIndex] << "\n";
+            userLex = lexerCall();
+
             Identifier(userLex);
-            if (userLex == ")") { userLex = lexerCall(); }
+
+            if (userLex == ")") { 
+                std::cout << parseList[recIndex] << "\n";
+                pOut << parseList[recIndex] << "\n";
+                userLex = lexerCall(); 
+            }
             else {std::cout << "Error: ')' expected\n";
             pOut << "Error: ')' expected\n";}
 
-            if (userLex == ";") { userLex = lexerCall(); }
+            if (userLex == ";") { 
+                std::cout << parseList[recIndex] << "\n";
+                pOut << parseList[recIndex] << "\n";
+                userLex = lexerCall(); }
             else {std::cout << "Error: ';' expected\n";
             pOut << "Error: ';' expected\n";}
         }
@@ -392,28 +421,36 @@ void Get(std::string& userLex) {
 // R13. <While> ::=  while ( <Condition>  )  <Statement>  
 void While(std::string& userLex) {
     if (userLex == "while"){
-        if (printSw) { std::cout << "<While> ::=  while ( <Condition>  )  <Statement>\n"; }
+        if (printSw) { std::cout << "<While> ::=  while ( <Condition>  )  <Statement>\n"; 
+
+        userLex = lexerCall();
+
         if (userLex == "(") { userLex = lexerCall(); }
         else {std::cout << "Error: '(' expected\n";
         pOut << "Error: '(' expected\n";}
+
         Condition(userLex);
+
         if (userLex == ")") { userLex = lexerCall(); }
         else {std::cout << "Error: ')' expected\n";
         pOut << "Error: ')' expected\n";}
+
         Statement(userLex);
     }
     else {std::cout << "Error: 'while' expected\n";
         pOut << "Error: 'while' expected\n";}
+    }
 }
 
 // R14. <Condition> ::=     <Expression>  <Relop>   <Expression>
 void Condition(std::string& userLex) {
     if (printSw) { std::cout << "<Condition> ::=     <Expression>  <Relop>   <Expression>\n";
-    pOut << "<Condition> ::=     <Expression>  <Relop>   <Expression>\n"; }
+    pOut << "<Condition> ::=     <Expression>  <Relop>   <Expression>\n";}
     Expression(userLex);
     Relop(userLex);
     Expression(userLex);
 }
+
 
 // R15. <Relop> ::=        ==     |    >     |   <          
 void Relop(std::string& userLex) {

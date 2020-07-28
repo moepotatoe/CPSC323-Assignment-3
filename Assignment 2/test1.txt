@@ -1,8 +1,8 @@
 $$
-[* Comment code *]
 integer i;
 integer max;
-integer sum;   
+integer sum; 
+[* Comment code *] 
 sum = 0;
 i = 1;
 get (max);
