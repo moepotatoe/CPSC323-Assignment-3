@@ -34,12 +34,15 @@ void Rat20su(std::string& userLex) { //Start from here.
         OptDeclarationList(userLex); //Call after incrementing
         StatementList(userLex);
 
-        if (userLex != "$$") //eof marker?
+        if (userLex == "$$") //eof marker?
         {
+            std::cout << parseList[recIndex] << "\nEnd of file.\n";
+            pOut << parseList[recIndex] << "\nEnd of file.\n";
+        }
+        else {
             std::cout << "Error: $$ expected.\n";
             pOut << "Error: $$ expected.\n";
-        }
-        else;
+        };
     }
     else {std::cout << "Error: $$ expected.\n";
     pOut << "Error: $$ expected.\n";}
@@ -76,8 +79,8 @@ void DeclarationList(std::string& userLex)
         std::cout << parseList[recIndex] << "\n";
         pOut << parseList[recIndex] << "\n";
         userLex = lexerCall(); //Get new lexeme
-        std::cout << parseList[recIndex] << "\n";
-        pOut << parseList[recIndex] << "\n";
+        // std::cout << parseList[recIndex] << "\n";
+        // pOut << parseList[recIndex] << "\n";
         DeclarationListPrime(userLex);
     }
     else {
@@ -118,16 +121,16 @@ void Declaration(std::string& userLex)
     pOut << "<Declaration> -> <Qualifier>  <Identifier>\n";}
     Qualifier(userLex);
     if (tokenVec[recIndex] == "Identifier") {
-    std::cout << "<Identifier>\n";
-    std::cout <<"Identifier detected\n" << parseList[recIndex] << "\n";
-    pOut << "<Identifier>\n";
-    pOut <<"Identifier detected\n" << parseList[recIndex] << "\n";
+        std::cout << "<Identifier>\n";
+        std::cout <<"Identifier detected" << parseList[recIndex] << "\n";
+        pOut << "<Identifier>\n";
+        pOut <<"Identifier detected" << parseList[recIndex] << "\n";
+        userLex = lexerCall();
     }
     else {
         std::cout << "Error, identifier expected\n";
         pOut << "Error, identifier expected\n";
     }
-    userLex = lexerCall();
 }
 
 //<Qualifier> -> integer |  boolean
@@ -182,16 +185,14 @@ void StatementList(std::string& userLex) {
 }
 
 //<StatementListPrime> -> <StatementList> | Epsilon
-void StatementListPrime(std::string& userLex) {
+void StatementListPrime(std::string& userLex) { //?
 
     //<StatementList>
     if (userLex == "if" || userLex == "fi" || userLex == "get" ||
-    userLex == "put" || userLex == "while" || userLex == "{" || userLex == "}")
+    userLex == "put" || userLex == "while" || userLex == "{" || tokenVec[recIndex] == "Identifier")
     {
-        std::cout << "\nLexeme passed in: " << userLex << "\n";
-        std::cout << "Passing in: " << parseList[recIndex] << "\n";
-        pOut << "\nLexeme passed in: " << userLex << "\n";
-        pOut << "Passing in: " << parseList[recIndex] << "\n";
+        std::cout << parseList[recIndex] << "\n";
+        pOut << parseList[recIndex] << "\n";
         if (printSw) { std::cout << "<StatementListPrime> -> <StatementList>\n";
         pOut << "<StatementListPrime> -> <StatementList>\n";}
         StatementList(userLex);
@@ -256,6 +257,7 @@ void Compound(std::string& userLex) {
         std::cout << parseList[recIndex] << "\n";
         pOut << parseList[recIndex] << "\n";
         StatementList(userLex);
+
         if (userLex == "}") {        
             userLex = lexerCall(); 
             std::cout << parseList[recIndex] << "\n";
@@ -286,19 +288,23 @@ void Assign(std::string& userLex) {
             userLex = lexerCall(); 
             std::cout << parseList[recIndex] << "\n";
             pOut << parseList[recIndex] << "\n";
+            Expression(userLex);
+             if (userLex == ";") { 
+                std::cout << parseList[recIndex] << "\n";
+                pOut << parseList[recIndex] << "\n";
+                userLex = lexerCall();         
+            }
+            else
+            {
+                std::cout << "Error: ';' expected\n";
+                pOut << "Error: ';' expected\n";
+            }            
         }
         else {std::cout << "Error: '=' expected\n";
-        pOut << "Error: '=' expected\n";}
-        Expression(userLex);
-        if (userLex == ";") { 
-            userLex = lexerCall(); 
-            std::cout << parseList[recIndex] << "\n";
-            pOut << parseList[recIndex] << "\n";
+        pOut << "Error: '=' expected\n";
         }
-        else{ std::cout << "Error: ';' expected\n";
-        pOut << "Error: ';' expected\n";}
         // userLex = lexerCall();
-        }
+    }
 }
 
 
@@ -307,52 +313,58 @@ void Assign(std::string& userLex) {
 void If(std::string& userLex) {  
     if (userLex == "if")
     {
+        std::cout << parseList[recIndex] << "\n";
+        pOut << parseList[recIndex] << "\n";
         userLex = lexerCall();
+        std::cout << parseList[recIndex] << "\n";
+        pOut << parseList[recIndex] << "\n";
         if (userLex == "(") { userLex = lexerCall(); 
             // userLex = lexerCall();
             Condition(userLex);
-            if (userLex == ")") { userLex = lexerCall(); }
+            if (userLex == ")") { 
+                userLex = lexerCall(); 
+                Statement(userLex);
+                  if (userLex == "fi")  {
+                    if (printSw) { std::cout << "<If> -> if  ( <Condition>  ) <Statement>   fi \n";
+                    pOut << "<If> -> if  ( <Condition>  ) <Statement>   fi \n";
+                    userLex = lexerCall(); 
+                    }
+                    else {std::cout << "Error: 'fi' expected\n";
+                    pOut << "Error: 'fi' expected\n";}
+                }
+                else if (userLex == "otherwise")
+                {
+                    std::cout << parseList[recIndex] << "\n";
+                    pOut << parseList[recIndex] << "\n";
+                    userLex = lexerCall();
+                    std::cout << parseList[recIndex] << "\n";
+                    pOut << parseList[recIndex] << "\n";
+                    Statement(userLex);
+                    if (userLex == "fi")
+                    {
+                        std::cout << "if  ( <Condition>  ) <Statement>   otherwise  <Statement>  fi\n";
+                        pOut << "if  ( <Condition>  ) <Statement>   otherwise  <Statement>  fi\n";
+                        std::cout << parseList[recIndex] << "\n";
+                        pOut << parseList[recIndex] << "\n";
+                        userLex = lexerCall();
+                    }
+                    else { std::cout << "Error: 'fi' expected";
+                    pOut << "Error: 'fi' expected";}
+                    }
+                    else {std::cout <<"Error: 'otherwise' expected";
+                    pOut <<"Error: 'otherwise' expected";}
+                }
+            
             else {std::cout << "Error: ')' expected\n";
             pOut << "Error: ')' expected\n";}
             // userLex = lexerCall();
-            Statement(userLex);
         }
         else {std::cout << "Error: '(' expected\n";
         pOut << "Error: '(' expected\n";}
-
-        //Where the main differences are
-        if (userLex == "fi")  {
-            if (printSw) { std::cout << "<If> -> if  ( <Condition>  ) <Statement>   fi \n";
-            pOut << "<If> -> if  ( <Condition>  ) <Statement>   fi \n";
-            userLex = lexerCall(); 
-        }
-        else {std::cout << "Error: 'fi' expected\n";
-        pOut << "Error: 'fi' expected\n";}
-
-        if (userLex == "otherwise")
-        {
-            userLex = lexerCall();
-            Statement(userLex);
-            if (userLex == "fi")
-            {
-                std::cout << "if  ( <Condition>  ) <Statement>   otherwise  <Statement>  fi\n";
-                pOut << "if  ( <Condition>  ) <Statement>   otherwise  <Statement>  fi\n";
-                userLex = lexerCall();
-            }
-            else { std::cout << "Error: 'fi' expected";
-            pOut << "Error: 'fi' expected";}
-        }
-        else {std::cout <<"Error: 'otherwise' expected";
-        pOut <<"Error: 'otherwise' expected";}
-    }
-    
-    if (userLex == "otherwise") { Statement(userLex); }
-    // double check
     }
     else {std::cout << "Error: 'if' keyword expected\n";
     pOut << "Error: 'if' keyword expected\n";}
 }
-
 
 // R11. <Put> ::=     put ( <identifier> );
 void Put(std::string& userLex) {
@@ -476,6 +488,7 @@ void Relop(std::string& userLex) {
         pOut << parseList[recIndex] << "\n";   
     }  
     else {
+        std::cout << parseList[recIndex] << "\n";  
         std::cout << "Error, expected an operator '==', '>', or '<'\n";
         pOut << "Error, expected an operator '==', '>', or '<'\n";
         system("Pause");
@@ -588,22 +601,23 @@ void Factor(std::string& userLex) {
 
 //<Primary> -> <Identifier>  |  <Integer>  |  ( <Expression> )   |  true   |  false
 void Primary(std::string& userLex) {
+    
 
     if (tokenVec[recIndex] == "Identifier")
     {
         if (printSw) {std::cout << "<Primary> -> <Identifier>\n";
         pOut << "<Primary> -> <Identifier>\n";}
+        std::cout <<"Identifier " << parseList[recIndex] << "\n";
+        pOut <<"Identifier " << parseList[recIndex] << "\n";
         userLex = lexerCall();
-        std::cout <<"Identifier\n" << parseList[recIndex] << "\n";
-        pOut <<"Identifier\n" << parseList[recIndex] << "\n";
     }
     else if (tokenVec[recIndex] == "Integer")
     {
         if (printSw) {std::cout << "<Primary> -> <Integer>\n";
         pOut << "<Primary> -> <Integer>\n";}
-        userLex = lexerCall();
         std::cout <<"Integer detected\n" << parseList[recIndex] << "\n";
         pOut <<"Integer detected\n" << parseList[recIndex] << "\n";
+        userLex = lexerCall(); //?
     }
     else if (userLex == "(")
     {

@@ -12,7 +12,7 @@
     get ( max);
     while (i <  max)  {
           sum = sum + i;
-          i  = i + 1; 
+          i = i + 1; 
      }
      put (sum);
      if (x > y) 
