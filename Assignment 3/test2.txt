@@ -1,0 +1,26 @@
+$$
+int pi = 3.14;
+	int r = 10;
+
+	int area = pi * r * r;
+
+	int a = 6;
+	int b = 7;
+	int aa = a * a;
+	int bb = b * b;
+	int aaa = a * a * a;
+	int bbb = b * b * b;
+
+	int m = 2;
+	int x = 3;
+	int b1 = 4;
+
+	int y = m * x + b;
+
+	int r = 25;
+	int s = 10;
+	int t = 10;
+	int u = 25;
+
+	int slope = ((r - s) / (t - u));
+$$

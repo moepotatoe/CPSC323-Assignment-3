@@ -1,0 +1,14 @@
+$$
+integer i;
+integer max;
+integer sum; 
+[* Comment code *] 
+sum = 0;
+i = 1;
+get (max);
+while (i <  max)  {
+ sum = sum + i;
+ i  = i + 1; 
+}
+sum = sum + max;
+$$
