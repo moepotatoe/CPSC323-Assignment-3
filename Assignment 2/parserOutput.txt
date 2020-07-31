@@ -116,3 +116,17 @@ Token: Identifier	Lexeme: x
 <Primary> -> <Identifier>
 Identifier Token: Identifier	Lexeme: x
 <Term Prime> -> Epsilon
+Token: Operator  	Lexeme: +
+<Expression Prime>-> + <Term> <Expression Prime>
+Token: Identifier	Lexeme: b
+<Term> -> <Factor> <Term Prime>
+<Factor> -> <Primary>
+<Primary> -> <Identifier>
+Identifier Token: Identifier	Lexeme: b
+<Term Prime> -> Epsilon
+Token: Separator	Lexeme: ;
+<Expression Prime> -> Epsilon
+Token: Separator	Lexeme: ;
+<Statement List Prime> -> Epsilon
+Token: Separator	Lexeme: $$
+End of file.
