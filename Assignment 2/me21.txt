@@ -1,0 +1,30 @@
+[* Start *]
+
+
+    $$
+    [* declarations *]
+    integer       i;
+    boolean       y;
+
+
+
+    [* statements *]
+    get ( max);
+    while (i <  max)  {
+          sum = sum + i;
+          i = i + 1; 
+     }
+     put (sum);
+     if (x > y) 
+       x = false;
+      fi
+     if ( y == z) 
+       x = true;
+      otherwise y = 123;
+     fi
+     sum = sum + max - ys / x*z;
+
+     
+$$
+
+    
