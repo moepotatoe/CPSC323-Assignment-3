@@ -1,0 +1,63 @@
+Procedure A()
+{
+if token = id then
+  {
+  save = token;
+   lexer();
+   E();
+   get inst(POPM, get_address(save));
+   }
+ else error_message("=expected");
+  }
+else error_message("id expected");
+
+Procedure E();
+{
+T();
+E;();
+}
+
+Procedure E'()
+{
+if token="+" then
+  {
+  lexer();
+  T();
+  get_instr(ADD,nil);
+  E'();
+  }
+ };
+ 
+ ProcedureT();
+ {
+ F();
+ T'();
+ }
+ 
+ Procedure T'()
+ {
+ if token = "*" then
+ `{
+  lexer();
+  F();
+  get_instr(MIL, nil);
+  T'();
+  }
+ }
+ 
+ Procedure F();
+{
+ if token = id then
+ {
+  get_instr(PUSHM, get_address(token));
+  else error_message("id expected");
+};
+ 
+Procedure gen_instr(op, opernd)
+/* instr_address shows the current insturction address is global */
+{
+Intr_table[inst_address].address = inst_address;
+Instr_table[instr_address].op = op;
+Intr_table[instr_address].oprnd = oprnd;
+Instr_address++;
+};
