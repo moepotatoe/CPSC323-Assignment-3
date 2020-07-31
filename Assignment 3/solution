@@ -1,0 +1,124 @@
+void Procedure A ()
+{
+if (token = id)
+ {
+ save = token;
+ lexer();
+ }
+ 
+ if (token = “=”)
+ {
+ lexer();
+ E();
+ get_instr (POPM, get_address (save) );
+ }
+ else error_message ( “= expected” );
+ }
+else error_massage ( “ id expected” );
+}
+
+void Procedure E ():
+{
+T ();
+E’();
+}
+
+
+void Procedure E’();
+{
+ if (token = “+”)
+  {
+  lexer();
+  T();
+  gen_instr (ADD, nil);
+  E’();
+  }
+}
+
+void Procedure T()
+{
+F();
+T’(); 
+}
+
+void Procedure T’()
+{
+if (token = “*")
+{
+ lexer();
+ F();
+ gen_instr(MUL, nil);
+ T’();
+}
+}
+
+void Procedure F() 
+{
+if (token = id)
+{
+ gen_instr(PUSHM, get_address (token));
+ lexer();
+
+}
+else error_message(“id expected”); };
+
+void Procedure gen_instr(op, oprnd)
+/* instr_address shows the current insturction address is global */
+{
+instr_table [instr_address].address = inst_address;
+instr_table [instr_address].op = op;
+instr_table [instr_address].oprnd = oprnd;
+instr_address++;
+};
+
+void Procedure while_statement();
+{
+if (token = “while”)
+ {
+ addr = instr_address;
+ gen_instr(“LABEL”, nil);
+ lexer();
+ else if (token = “(“)
+ {
+ lexer();
+ C ( );
+ 
+ else if (token = “)”)
+ {
+ lexer();
+ S();
+ gen_instr(JUMP, addr);
+ back_patch (instr_address);
+ lexer();
+ };
+ 
+ else error_message (“ ) expected”);
+ else error_message (“( expected”);
+ 
+ }
+else error_message (“while expected”);
+};
+
+/* fix me
+void Procedure C ()
+{
+E();
+if (R[token])
+ {
+ op = token;
+ lexer();
+ E();
+ case op of
+ < : gen_instr (LES, nil);
+ push_jumpstack (instr_address); /* another stack need */
+ gen_instr (JUMPZ, nil);
+ > :
+ == :
+ }
+else error_message (“ R token expected”);
+}
+Procedure back_patch (jump_addr)
+{
+addr = pop_jumpstack();
+Instr_table[addr].oprn = jump_addr;
+}*/
